@@ -1,44 +1,76 @@
-// EMMA EMEKA CHUKWU – Node.js ASSIGNMENT
-
-// Question 1:
-
-let greet = "Hello".split("").reverse().join("");
-console.log(greet);
+// Question 1: A function to accept a 2 dimentional array and return a flatten array
 
 
-// Question 2:
-
-/*
-
-A: A String is a primitive data type that represents a sequential collection of characters 
-used to store and manipulate textual data. It can contain letters, numbers, symbols, or empty spaces wrapped inside single, double, or backtick quotation marks. Strings in JavaScript are immutable, meaning once a string is created, its individual characters cannot be changed directly. Example: .toUpperCase() , .replace() 
-
-B: The Number data type represents numerical values, 
-which can be computed mathematically with standard arithmetic operators. Example: .toString()
-
-*/
+const myArray = [[1,2,3], [4, 5], [6,7,8,9]];
 
 
-// Question 3: 
+function flatArray (arr) {
+    let flat = [];
 
-let number = 85;
- if (number <0 || number > 100){
-    console.log(`Invalid Score`)
+    for (let a = 0; a < arr.length; a++){
+    for (let b = 0; b < arr[a].length; b++){
 
-}else if (number >= 70 && number <= 100){
-console.log(` Excellent `)
+        flat.push(arr[a][b]);
+    }
+    }
 
-}else if (number >= 60 && number <= 69){
-console.log( ` Very Good `);
+    return flat;
+}
 
-}else if  (number >= 50 && number <= 59){
-console.log( ` Good `);
-
-} else if (number >= 40 && number <= 49){
-console.log( ` Poor `);
+console.log(flatArray(myArray))
 
 
-} else if  (number >= 0 && number <= 39){
-console.log( ` Very Poor `);
 
-} 
+//Question 2: a function that accepts 3 arrays and returns an array of elements that are found/shared between the three arrays.
+
+const oneOfEach = [1, 2, 3, 4]
+const twoOfEach = [3, 4, 5]
+const threeOfEach = [3, 4, 5, 6]
+
+function sharedArray (a, b, c){
+
+  return a.filter(e => b.includes(e) && c.includes(e));
+}
+
+// sharedArray(oneOfEach)
+
+console.log(sharedArray(oneOfEach, twoOfEach, threeOfEach));
+
+
+// Question 3:  function that accepts an array of elements and returns a list of unique elements.
+
+const uniArray = [1, 3, 2, 3, 4, 5, 4, 2, 5, 6];
+
+function uniqueArray(arr){
+    let flat = [];
+    
+    for (let i = 0; i < arr.length; i++){
+        
+     if (!flat.includes(arr[i])) {
+      flat.push(arr[i]);
+    }
+    }
+        return flat;
+}
+
+uniqueArray(uniArray)
+
+console.log(uniqueArray(uniArray))
+
+
+// Question 4: Write a JavaScript that accepts a string in kabeb case and returns the string in camel case.
+
+// let word = "hello-there"
+
+function toCamel (a){
+   return a.split('-').map((word, i) => {
+    if (i === 0){
+        return word;
+    }
+
+    return word[0].toUpperCase() + word.slice(1);
+   }).join('');
+    
+}
+
+console.log(toCamel('hello-there'));
