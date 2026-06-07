@@ -1,76 +1,140 @@
-// Question 1: A function to accept a 2 dimentional array and return a flatten array
+// Question 1: Write a function that accepts a GitHub username as an argument and returns the details of that user if the user exists
+async function fetchUser(user) {
 
+    try{
 
-const myArray = [[1,2,3], [4, 5], [6,7,8,9]];
-
-
-function flatArray (arr) {
-    let flat = [];
-
-    for (let a = 0; a < arr.length; a++){
-    for (let b = 0; b < arr[a].length; b++){
-
-        flat.push(arr[a][b]);
-    }
-    }
-
-    return flat;
-}
-
-console.log(flatArray(myArray))
-
-
-
-//Question 2: a function that accepts 3 arrays and returns an array of elements that are found/shared between the three arrays.
-
-const oneOfEach = [1, 2, 3, 4]
-const twoOfEach = [3, 4, 5]
-const threeOfEach = [3, 4, 5, 6]
-
-function sharedArray (a, b, c){
-
-  return a.filter(e => b.includes(e) && c.includes(e));
-}
-
-// sharedArray(oneOfEach)
-
-console.log(sharedArray(oneOfEach, twoOfEach, threeOfEach));
-
-
-// Question 3:  function that accepts an array of elements and returns a list of unique elements.
-
-const uniArray = [1, 3, 2, 3, 4, 5, 4, 2, 5, 6];
-
-function uniqueArray(arr){
-    let flat = [];
+    const response = await fetch(`https://api.github.com/users/${user}`) 
     
-    for (let i = 0; i < arr.length; i++){
+    // if (!response.ok? "user not found" : "Here is your search result" ){
+    //     console.log('result')
+    // }
+
+    if (!response.ok || response.status === 404){
+        throw new Error(`User not found, status:${response.status}`)
+    }
+
+    const data = await response.json()
+    return data;
+
+    console.log(data)
+
+
+    } catch(error){
+        console.error(`Error finding user:`, error.message)
+        return null;
+    }
+
+}
+
+// testing the function
+
+async function searchUser(){
+
+     await fetchUser('emeka56');
+}
+
+searchUser()
+
+// test unrelated kindly ignore
+
+// async function google(search){
+//     try{
+
+//     const response = fetch(`https://www.google.com`);
+
+//     if (response.status === 404){
+//         console.log(`Search not found`)
+//     }
+
+//     let data = (await response).json();
+//     return data;
+
+//     console.log(data);
+
+//     } catch(error){
+//         console.error(`You got an error:`, error.message)
+//     }
+// }
+
+// async function search(){
+//     await google("how to bake a cake");
+
+// }
+
+// search()
+
+
+
+
+
+
+
+// Question 2: Write a class named KCStore that has "products" as it's property. It should also have methods to add, update, view and delete products.
+
+class KCStore {
+    
+    constructor(products) {
+        this.products = [];
+    }
+
+    // to add products
+
+    addProducts(product){
+        this.products.push(product)
+        // return `Product:"${product}" added`
+
+        return console.log(`${product}: added`)
+    }
+
+    // view the products added
+
+    viewProducts(products){
+        if(this.products.length === 0){
+            return "No products found"
+        }
+
+        return this.products;
+    }
+
+    // updating the products added
+
+    updateProducts(id, products){
+        const newProduct = this.products.find(item => item.id === id);
         
-     if (!flat.includes(arr[i])) {
-      flat.push(arr[i]);
+        if(!products){
+            return console.log("Product not available")
+        }else{
+            newProduct = this.products.push(products);
+        }
+
+        console.log(id, newProduct)
     }
+
+    // Delete product
+
+    deleteProduct(id){
+        const index = this.products.find(p => p.id === id);
+        if(index < this.products){
+            return "Product not found";
+
+        }else{
+            this.products.splice(index, 1);
+            return `Product ${id}:  deleted successfully`
+        }
     }
-        return flat;
 }
 
-uniqueArray(uniArray)
+// testing constructor
 
-console.log(uniqueArray(uniArray))
+const test = new KCStore();
 
+test.addProducts('laptop')
+test.addProducts('Console')
+test.addProducts('phone')
+test.addProducts('sax')
 
-// Question 4: Write a JavaScript that accepts a string in kabeb case and returns the string in camel case.
+test.updateProducts('sthone')
 
-// let word = "hello-there"
-
-function toCamel (a){
-   return a.split('-').map((word, i) => {
-    if (i === 0){
-        return word;
-    }
-
-    return word[0].toUpperCase() + word.slice(1);
-   }).join('');
-    
-}
-
-console.log(toCamel('hello-there'));
+console.log(test.viewProducts())
+console.log(test.deleteProduct(1))
+console.log(test.viewProducts())
