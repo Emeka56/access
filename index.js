@@ -18,7 +18,6 @@ async function fetchUser(user) {
 
     console.log(data)
 
-
     } catch(error){
         console.error(`Error finding user:`, error.message)
         return null;
@@ -28,12 +27,11 @@ async function fetchUser(user) {
 
 // testing the function
 
-async function searchUser(){
-
-     await fetchUser('emeka56');
-}
-
-searchUser()
+fetchUser("emeka56").then(user =>{
+    if(user){
+        console.log(user)
+    }
+})
 
 // test unrelated kindly ignore
 
